@@ -1,7 +1,7 @@
 import { ref, watch, computed, readonly } from 'vue'
 import { z } from 'zod'
 import { defineStore, storeToRefs } from 'pinia'
-import { useWebSocket } from '@vueuse/core'
+import { useWebSocket } from 'src/composables/useWebsocket'
 import type { FormattedChatMessage, WSChatMessage } from 'src/types/chat'
 import { ChatMessageType } from 'src/types/chat'
 
@@ -25,8 +25,9 @@ function formatMessage(text: string, type: ChatMessageType, is_read: boolean) {
 }
 
 export const useChatsStore = defineStore('chats', () => {
-  const wsUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:8181'
-  const { status, data } = useWebSocket(wsUrl)
+  const { status, data } = useWebSocket({
+    immediate: true,
+  })
 
   const chats = ref(new Map<string, FormattedChatMessage>())
   const selectedChat = ref<string>('')
