@@ -31,6 +31,10 @@ export default defineConfig((/* ctx */) => {
           tsConfig.compilerOptions ??= {}
           tsConfig.compilerOptions.paths ??= {}
           tsConfig.compilerOptions.paths['@/*'] = ['./../src/*']
+          tsConfig.exclude = [
+            ...(tsConfig.exclude ?? []),
+            './../simple-chat-server',
+          ]
         },
       },
 
