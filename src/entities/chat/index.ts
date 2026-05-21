@@ -1,0 +1,6 @@
+export { useChatsStore, useChatsStoreRefs } from './model/chatStore'
+export { bindChatWsIntegration } from './model/wsIntegration'
+export { ChatMessageType } from './model/types'
+export type { ChatMessage, FormattedChatMessage, WSChatMessage, WSResponse } from './model/types'
+export { default as ChatMessageBubble } from './ui/ChatMessageBubble.vue'
+export { default as ChatListItem } from './ui/ChatListItem.vue'

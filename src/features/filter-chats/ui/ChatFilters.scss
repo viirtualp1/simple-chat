@@ -1,0 +1,12 @@
+.chat-filters {
+  &__sort {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-block: 20px;
+
+    & > * {
+      flex: 0 0 calc(50% - 5px);
+    }
+  }
+}

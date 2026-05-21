@@ -1,7 +1,7 @@
 <template>
-  <index-page />
+  <chat-page />
 </template>
 
 <script setup lang="ts">
-import { IndexPage } from 'components/IndexPage'
+import { ChatPage } from '@/pages/chat'
 </script>
