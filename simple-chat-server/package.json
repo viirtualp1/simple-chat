@@ -5,19 +5,18 @@
   "type": "commonjs",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/server.js",
-    "dev": "tsx server.ts"
+    "start": "tsx server.ts"
   },
   "engines": {
     "node": ">=20"
   },
   "dependencies": {
+    "tsx": "^4.22.0",
     "ws": "^8.20.1"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/ws": "^8.18.1",
-    "tsx": "^4.22.0",
     "typescript": "~5.5.3"
   }
 }
