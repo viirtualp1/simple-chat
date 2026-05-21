@@ -15,6 +15,7 @@ export function createProtocol(
   options: Pick<ConnectionManagerOptions, 'requestTimeoutMs'> = {},
 ): IProtocol {
   const { requestTimeoutMs = 5_000 } = options
+
   const pending = new Map<string, (payload: unknown) => void>()
   const middlewares: MessageMiddleware[] = []
 
@@ -31,7 +32,9 @@ export function createProtocol(
 
   connectionManager.onMessage((raw) => {
     const envelope = deserializeEnvelope(raw)
-    if (!envelope) return
+    if (!envelope) {
+      return
+    }
 
     if (envelope.id && pending.has(envelope.id)) {
       pending.get(envelope.id)?.(envelope.payload)

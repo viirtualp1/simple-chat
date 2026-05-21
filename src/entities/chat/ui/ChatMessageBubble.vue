@@ -1,5 +1,6 @@
 <template>
   <q-chat-message
+    class="chat-message-bubble"
     :bg-color="isSent ? 'primary' : 'grey-3'"
     :text-color="isSent ? 'white' : 'black'"
     :sent="isSent"
@@ -17,11 +18,9 @@ const props = defineProps<{
   message: ChatMessage
 }>()
 
-const isSent = computed(() => {
-  return props.message.type === ChatMessageType.OUTPUT
-})
+const isSent = computed(() => props.message.type === ChatMessageType.OUTPUT)
 
-const parsedDate = computed(() => {
-  return format(parseISO(props.message.date), 'dd.MM.yyyy HH:mm')
-})
+const parsedDate = computed(() => format(parseISO(props.message.date), 'dd.MM.yyyy HH:mm'))
 </script>
+
+<style lang="scss" src="./ChatMessageBubble.scss"></style>

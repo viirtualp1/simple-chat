@@ -1,0 +1,35 @@
+$bubble-radius: 28px;
+
+.chat-message-bubble {
+  margin-bottom: 4px;
+
+  :deep(.q-message-container) {
+    max-width: 85%;
+  }
+
+  :deep(.q-message-text) {
+    border-radius: $bubble-radius !important;
+    padding: 10px 16px;
+    line-height: 1.45;
+    font-size: 14px;
+  }
+
+  :deep(.q-message-text--sent) {
+    border-radius: $bubble-radius !important;
+  }
+
+  :deep(.q-message-text--received) {
+    border-radius: $bubble-radius !important;
+  }
+
+  :deep(.q-message-text:last-child::before),
+  :deep(.q-message-text:last-child::after) {
+    display: none;
+  }
+
+  :deep(.q-message-stamp) {
+    margin-top: 4px;
+    font-size: 11px;
+    opacity: 0.7;
+  }
+}

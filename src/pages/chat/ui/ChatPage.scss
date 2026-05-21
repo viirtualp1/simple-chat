@@ -1,7 +1,13 @@
 .chat-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: unset !important;
+  padding: 0 !important;
   position: relative;
 
-  &.is-centered {
+  &__placeholder {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -1,5 +1,10 @@
 import { getBackoffDelay } from './lib/backoff'
-import type { ConnectionManagerOptions, ConnectionStatus, IConnectionManager, ITransport } from './types'
+import type {
+  ConnectionManagerOptions,
+  ConnectionStatus,
+  IConnectionManager,
+  ITransport,
+} from './types'
 
 const PING_MESSAGE = JSON.stringify({ type: 'ping', payload: null, timestamp: Date.now() })
 
@@ -91,11 +96,14 @@ export function createConnectionManager(
     setStatus('reconnecting')
     clearReconnectTimer()
 
-    reconnectTimer = setTimeout(() => {
-      reconnectAttempt += 1
-      setStatus('connecting')
-      transport.connect(url)
-    }, getBackoffDelay(reconnectAttempt, maxBackoffMs))
+    reconnectTimer = setTimeout(
+      () => {
+        reconnectAttempt += 1
+        setStatus('connecting')
+        transport.connect(url)
+      },
+      getBackoffDelay(reconnectAttempt, maxBackoffMs),
+    )
   }
 
   function handleIncoming(raw: string) {

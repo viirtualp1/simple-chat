@@ -1,10 +1,17 @@
 .chat-sidebar {
-  height: 100vh;
-  padding: 16px;
-  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 8px;
+  padding-top: calc(8px + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  overflow: hidden;
 
-  @media (max-width: 680px) {
-    width: 100%;
-    border: none;
+  &__list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin-inline: -4px;
+    -webkit-overflow-scrolling: touch;
   }
 }

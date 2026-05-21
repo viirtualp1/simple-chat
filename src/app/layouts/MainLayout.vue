@@ -1,38 +1,39 @@
 <template>
-  <q-layout class="main-layout row">
-    <div v-if="isShowSidebar" class="col col-md-3">
-      <chat-sidebar />
-    </div>
+  <q-layout view="hHh lpR fFf" class="main-layout">
+    <q-page-container class="main-layout__container">
+      <div class="main-layout__body">
+        <aside
+          v-if="showSidebar"
+          class="main-layout__sidebar"
+          :class="{ 'main-layout__sidebar--full': isMobileLayout }"
+        >
+          <chat-sidebar />
+        </aside>
 
-    <q-page-container v-if="isShowContainer" class="col">
-      <router-view />
+        <main
+          v-if="showChat"
+          class="main-layout__chat"
+          :class="{ 'main-layout__chat--full': isMobileLayout }"
+        >
+          <router-view />
+        </main>
+      </div>
     </q-page-container>
   </q-layout>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useBreakpoints } from '@vueuse/core'
 import { useChatsStoreRefs } from '@/entities/chat'
+import { useChatLayout } from '@/shared/lib/useChatLayout'
 import { ChatSidebar } from '@/widgets/chat-sidebar'
 
 const { selectedChat } = useChatsStoreRefs()
+const { isDesktop, isMobileLayout } = useChatLayout()
 
-const { greater } = useBreakpoints({
-  tablet: 640,
-  laptop: 1024,
-  desktop: 1280,
-})
+const showSidebar = computed(() => isDesktop.value || !selectedChat.value)
 
-const isShowSidebar = computed(() => {
-  if (greater('laptop').value) {
-    return true
-  }
-
-  return !selectedChat.value
-})
-
-const isShowContainer = computed(() => {
-  return greater('laptop').value || selectedChat.value
-})
+const showChat = computed(() => isDesktop.value || Boolean(selectedChat.value))
 </script>
+
+<style lang="scss" src="./MainLayout.scss"></style>
