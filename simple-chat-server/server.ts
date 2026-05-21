@@ -9,9 +9,10 @@ interface MessageEnvelope {
   channel?: string
 }
 
-const wss = new WebSocketServer({ port: 8080 })
+const port = Number(process.env.PORT) || 8080
+const wss = new WebSocketServer({ port })
 
-console.log('WebSocket server started on ws://localhost:8080')
+console.log(`WebSocket server started on port ${port}`)
 
 function sendEnvelope(ws: WebSocket, envelope: MessageEnvelope) {
   ws.send(
