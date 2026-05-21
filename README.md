@@ -2,7 +2,6 @@
 
 Real-time chat app built with **Vue 3 + Quasar + Pinia + TypeScript**.  
 
-
 Frontend follows **Feature-Sliced Design (FSD)**
 
 WebSocket client is layered (transport → connection manager → protocol → message bus)
@@ -95,17 +94,6 @@ UI and Pinia stores **do not use raw `WebSocket`**. The client in `shared/ws/` i
 | ------------------------- | ------------------------------------------------------------------ |
 | Desktop (≥1024px)         | Sidebar + chat side by side                                        |
 | Mobile / tablet (<1024px) | Fullscreen contacts → tap opens chat → back button returns to list |
-
-
----
-
-## Environment variables
-
-
-| Variable      | Where                      | Example                       |
-| ------------- | -------------------------- | ----------------------------- |
-| `VITE_WS_URL` | Frontend (Vercel / `.env`) | `wss://your-app.onrender.com` |
-| `PORT`        | WS server (Render)         | set automatically by Render   |
 
 
 ---
