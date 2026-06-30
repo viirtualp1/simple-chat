@@ -1,18 +1,20 @@
 <template>
-  <q-banner
+  <div
     v-if="visible"
-    dense
-    inline-actions
-    rounded
+    class="ws-connection-banner flex items-center justify-between gap-3 px-4 py-2 text-sm"
     :class="bannerClass"
-    class="ws-connection-banner"
   >
-    {{ bannerText }}
+    <span>{{ bannerText }}</span>
 
-    <template v-if="status === 'failed'" v-slot:action>
-      <q-btn flat color="white" label="Retry" @click="retry" />
-    </template>
-  </q-banner>
+    <UButton
+      v-if="status === 'failed'"
+      label="Retry"
+      color="neutral"
+      variant="ghost"
+      size="sm"
+      @click="retry"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -26,9 +28,9 @@ const visible = computed(() => {
 })
 
 const bannerClass = computed(() => {
-  if (status.value === 'failed') return 'bg-negative text-white'
-  if (status.value === 'offline') return 'bg-grey-8 text-white'
-  return 'bg-warning text-dark'
+  if (status.value === 'failed') return 'bg-error text-white'
+  if (status.value === 'offline') return 'bg-neutral-800 text-white'
+  return 'bg-warning text-black'
 })
 
 const bannerText = computed(() => {
@@ -51,7 +53,7 @@ function retry() {
 }
 </script>
 
-<style lang="scss">
+<style scoped>
 .ws-connection-banner {
   position: fixed;
   top: 0;

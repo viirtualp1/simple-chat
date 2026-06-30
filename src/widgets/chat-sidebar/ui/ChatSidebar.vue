@@ -1,8 +1,8 @@
 <template>
-  <div class="chat-sidebar">
-    <chat-filters />
-    <div class="chat-sidebar__list">
-      <chats-list />
+  <div class="flex h-full flex-col overflow-hidden p-2">
+    <ChatFilters />
+    <div class="-mx-1 min-h-0 flex-1 overflow-y-auto">
+      <ChatsList />
     </div>
   </div>
 </template>
@@ -14,5 +14,3 @@ import ChatsList from './ChatsList.vue'
 
 provideRelativeTimeNow()
 </script>
-
-<style lang="scss" src="./ChatSidebar.scss"></style>

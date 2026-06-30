@@ -10,7 +10,9 @@ export function useChatsFilters() {
   const sortType = computed(() => filters.value.sort)
 
   const filteredChats = computed(() => {
-    if (chatsList.value.length === 0) return []
+    if (chatsList.value.length === 0) {
+      return []
+    }
 
     const filtered = chatsList.value.filter((chat) => {
       if (searchTerm.value && !chat.from.toLowerCase().includes(searchTerm.value)) {
@@ -30,9 +32,17 @@ export function useChatsFilters() {
       const aLastMessage = a.messages[a.messages.length - 1]
       const bLastMessage = b.messages[b.messages.length - 1]
 
-      if (!aLastMessage && !bLastMessage) return 0
-      if (!aLastMessage) return 1
-      if (!bLastMessage) return -1
+      if (!aLastMessage && !bLastMessage) {
+        return 0
+      }
+
+      if (!aLastMessage) {
+        return 1
+      }
+
+      if (!bLastMessage) {
+        return -1
+      }
 
       return new Date(bLastMessage.date).getTime() - new Date(aLastMessage.date).getTime()
     })

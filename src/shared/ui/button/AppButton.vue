@@ -1,27 +1,33 @@
 <template>
-  <q-btn
-    class="app-button"
-    unelevated
-    rounded
-    color="primary"
-    :outline="outline"
+  <UButton
+    :label="label"
+    :color="color"
+    :variant="outline ? 'outline' : 'solid'"
+    block
+    class="justify-center rounded-full"
   >
-    {{ label }}
-
-    <q-badge v-if="alwaysVisibleBadge" :color="badgeColor" rounded>
-      {{ badgeText }}
-    </q-badge>
-  </q-btn>
+    <template v-if="alwaysVisibleBadge" #trailing>
+      <UBadge :color="badgeColor" size="sm" class="rounded-full">
+        {{ badgeText }}
+      </UBadge>
+    </template>
+  </UButton>
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  label?: string
-  outline?: boolean
-  badgeColor?: string
-  badgeText?: string
-  alwaysVisibleBadge?: boolean
-}>()
-</script>
+import type { ButtonProps, BadgeProps } from '@nuxt/ui'
 
-<style lang="scss" src="./AppButton.scss"></style>
+withDefaults(
+  defineProps<{
+    label?: string
+    outline?: boolean
+    color?: ButtonProps['color']
+    badgeColor?: BadgeProps['color']
+    badgeText?: string
+    alwaysVisibleBadge?: boolean
+  }>(),
+  {
+    color: 'primary',
+  },
+)
+</script>

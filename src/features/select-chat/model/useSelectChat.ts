@@ -8,7 +8,9 @@ export function useSelectChat() {
     setSelectedChat(from)
 
     const chat = chats.value.get(from)
-    if (!chat) return
+    if (!chat) {
+      return
+    }
 
     chat.messages = chat.messages.map((message) => ({
       ...message,
@@ -16,5 +18,7 @@ export function useSelectChat() {
     }))
   }
 
-  return { selectChat }
+  return {
+    selectChat,
+  }
 }

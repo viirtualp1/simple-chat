@@ -1,6 +1,5 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist/spa",
-  "installCommand": "npm install",
-  "framework": null
+  "framework": "nuxtjs",
+  "buildCommand": "nuxt build",
+  "installCommand": "npm install"
 }

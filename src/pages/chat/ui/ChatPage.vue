@@ -1,10 +1,10 @@
 <template>
-  <q-page class="chat-page">
-    <chat-window v-if="selectedChat" />
-    <div v-else-if="isDesktop" class="chat-page__placeholder">
-      <h5>Select a chat to start messaging</h5>
+  <div class="relative flex h-full flex-col">
+    <ChatWindow v-if="selectedChat" />
+    <div v-else-if="isDesktop" class="flex flex-1 items-center justify-center">
+      <h5 class="text-lg font-medium text-muted">Select a chat to start messaging</h5>
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -15,5 +15,3 @@ import { ChatWindow } from '@/widgets/chat-window'
 const { selectedChat } = useChatsStoreRefs()
 const { isDesktop } = useChatLayout()
 </script>
-
-<style lang="scss" src="./ChatPage.scss"></style>

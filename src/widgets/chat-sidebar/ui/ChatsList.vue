@@ -1,24 +1,19 @@
 <template>
-  <q-list>
-    <q-banner
+  <div class="flex flex-col gap-0.5">
+    <UAlert
       v-if="filteredChats.length === 0"
-      dense
-      inline-actions
-      class="chats-list__banner"
-      :class="filters.sort === SortFilterType.NEW ? 'bg-primary text-white' : 'bg-grey-3'"
-    >
-      {{ emptyMessage }}
-
-      <template v-if="filters.sort === SortFilterType.NEW" v-slot:action>
-        <q-btn flat color="white" rounded label="Go to all chats" @click="setRecentFilter" />
-      </template>
-    </q-banner>
+      :title="emptyMessage"
+      :color="filters.sort === SortFilterType.NEW ? 'primary' : 'neutral'"
+      variant="subtle"
+      class="rounded-3xl"
+      :actions="emptyActions"
+    />
 
     <template v-for="(chat, idx) in filteredChats" :key="chat.from">
-      <chat-list-item :chat="chat" @select:chat="onChatSelected" />
-      <q-separator v-if="idx !== filteredChats.length - 1" spaced />
+      <ChatListItem :chat="chat" @select:chat="onChatSelected" />
+      <USeparator v-if="idx !== filteredChats.length - 1" />
     </template>
-  </q-list>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -44,6 +39,12 @@ const emptyMessage = computed(() => {
   return 'No chats yet'
 })
 
+const emptyActions = computed(() =>
+  filters.value.sort === SortFilterType.NEW
+    ? [{ label: 'Go to all chats', color: 'primary' as const, onClick: setRecentFilter }]
+    : undefined,
+)
+
 function onChatSelected(from: string) {
   selectChat(from)
 }
@@ -52,5 +53,3 @@ function setRecentFilter() {
   filters.value.sort = SortFilterType.RECENT
 }
 </script>
-
-<style lang="scss" src="./ChatsList.scss"></style>

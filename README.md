@@ -1,10 +1,13 @@
 # Simple Chat
 
-Real-time chat app built with **Vue 3 + Quasar + Pinia + TypeScript**.  
+Real-time chat app built with **Nuxt 4 + Nuxt UI + Pinia + TypeScript**.
 
-Frontend follows **Feature-Sliced Design (FSD)**
+Frontend follows **Feature-Sliced Design (FSD)**.
 
-WebSocket client is layered (transport → connection manager → protocol → message bus)
+WebSocket client is layered (transport → connection manager → protocol → message bus).
+
+> The app runs as a **client-side SPA** (`ssr: false`) so the layered WebSocket client can own
+> `window` / `navigator` / `document` without server-side shims.
 
 > **Production deploy:** frontend on **[Vercel](https://vercel.com)**, WebSocket server on **[Render](https://render.com)**.
 
@@ -42,8 +45,7 @@ Server listens on port **8080** by default (`PORT` env on Render).
 
 ### Feature-Sliced Design
 
-Code is split into layers by responsibility:
-
+Code lives under `src/` (Nuxt `srcDir`) and is split into layers by responsibility:
 
 | Domain                                  | Layer      | Slice          |
 | --------------------------------------- | ---------- | -------------- |
@@ -54,8 +56,17 @@ Code is split into layers by responsibility:
 | Send message                            | `features` | `send-message` |
 | Contacts sidebar                        | `widgets`  | `chat-sidebar` |
 | Chat panel                              | `widgets`  | `chat-window`  |
+| Page slices                             | `pages`    | `chat`, `error-not-found` |
 | WS client                               | `shared`   | `ws`           |
 
+The FSD **app layer** maps onto Nuxt conventions at the `src/` root:
+
+- `src/app.vue` — root shell (`<UApp>` + WS banner + `<NuxtLayout>` / `<NuxtPage>`)
+- `src/layouts/default.vue` — responsive sidebar/chat layout
+- `src/plugins/ws.client.ts` — wires the WS client into the chat store
+- `src/routes/` — Nuxt file-based routing (configured via `dir.pages`), thin entries that render FSD page slices
+
+> Nuxt's routing directory is remapped to `src/routes` so the FSD `src/pages` layer keeps its own meaning.
 
 ---
 
@@ -89,24 +100,22 @@ UI and Pinia stores **do not use raw `WebSocket`**. The client in `shared/ws/` i
 
 ## Responsive layout
 
-
 | Breakpoint                | Behavior                                                           |
 | ------------------------- | ------------------------------------------------------------------ |
 | Desktop (≥1024px)         | Sidebar + chat side by side                                        |
 | Mobile / tablet (<1024px) | Fullscreen contacts → tap opens chat → back button returns to list |
 
-
 ---
 
 ## Tech stack
 
-- **Vue 3** (Composition API, `<script setup>`)
-- **Quasar 2**
-- **Pinia**
+- **Nuxt 4** (Vue 3, Composition API, `<script setup>`)
+- **Nuxt UI 3** (Tailwind CSS v4)
+- **Pinia** (`@pinia/nuxt`)
 - **TypeScript**
-- **Vue Router** (hash mode)
+- **VueUse** (`@vueuse/nuxt`)
 - **ws** (Node WebSocket server)
-- **Zod**, **date-fns**, **@vueuse/core**
+- **Zod**, **date-fns**, **uuid**
 
 ---
 

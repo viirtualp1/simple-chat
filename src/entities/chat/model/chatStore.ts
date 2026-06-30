@@ -44,10 +44,6 @@ export const useChatsStore = defineStore('chats', () => {
     selectedChat.value = from
   }
 
-  function clearNotification() {
-    lastNotification.value = null
-  }
-
   return {
     selectedChat: readonly(selectedChat),
     lastNotification: readonly(lastNotification),
@@ -56,7 +52,6 @@ export const useChatsStore = defineStore('chats', () => {
     handleIncomingMessage,
     handleNotification,
     setSelectedChat,
-    clearNotification,
   }
 })
 

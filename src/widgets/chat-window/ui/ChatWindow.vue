@@ -1,56 +1,54 @@
 <template>
-  <div v-if="chat" class="chat-window">
-    <div class="chat-window__header">
-      <q-btn
+  <div v-if="chat" class="flex h-full flex-col bg-default">
+    <div class="flex shrink-0 items-center gap-3 border-b border-default bg-default px-4 py-3">
+      <UButton
         v-if="isMobileLayout"
-        round
-        flat
+        icon="i-lucide-arrow-left"
         color="primary"
-        icon="arrow_back"
+        variant="ghost"
         size="md"
-        class="chat-window__back"
         aria-label="Back to contacts"
         @click="back"
       />
 
-      <q-avatar color="primary" text-color="white" size="36px">
-        {{ chat.from[0] }}
-      </q-avatar>
+      <UAvatar
+        :text="chat.from[0]"
+        size="md"
+        :ui="{ root: 'bg-primary', fallback: 'text-white' }"
+      />
 
-      <span class="chat-window__title">{{ chat.from }}</span>
+      <span class="truncate text-lg font-semibold">{{ chat.from }}</span>
     </div>
 
-    <div ref="chatContentRef" class="chat-window__content">
-      <chat-message-bubble
+    <div ref="chatContentRef" class="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto p-4">
+      <ChatMessageBubble
         v-for="message in messages"
         :key="message.date + message.text"
         :message="message"
       />
     </div>
 
-    <div class="chat-window__footer">
-      <q-input
-        v-model="text"
-        label="Type a message"
-        name="Message"
-        outlined
-        rounded
-        autogrow
-        :max-height="120"
-        @keydown.enter.exact.prevent="handleSend"
-      >
-        <template v-slot:append>
-          <q-btn
-            round
-            dense
-            flat
-            icon="send"
-            color="primary"
-            :disable="!text.trim()"
-            @click="handleSend"
-          />
-        </template>
-      </q-input>
+    <div class="shrink-0 border-t border-default bg-default px-4 py-3">
+      <div class="flex items-end gap-2">
+        <UTextarea
+          v-model="text"
+          class="w-full flex-1"
+          :rows="1"
+          :maxrows="5"
+          autoresize
+          placeholder="Type a message"
+          @keydown.enter.exact.prevent="handleSend"
+        />
+        <UButton
+          icon="i-lucide-send"
+          color="primary"
+          variant="solid"
+          size="lg"
+          square
+          :disabled="!text.trim()"
+          @click="handleSend"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -106,5 +104,3 @@ watch(selectedChat, () => {
   scrollToLastMessage('instant')
 })
 </script>
-
-<style lang="scss" src="./ChatWindow.scss"></style>

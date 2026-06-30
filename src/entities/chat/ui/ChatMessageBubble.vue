@@ -1,12 +1,13 @@
 <template>
-  <q-chat-message
-    class="chat-message-bubble"
-    :bg-color="isSent ? 'primary' : 'grey-3'"
-    :text-color="isSent ? 'white' : 'black'"
-    :sent="isSent"
-    :stamp="parsedDate"
-    :text="[message.text]"
-  />
+  <div class="flex flex-col" :class="isSent ? 'items-end' : 'items-start'">
+    <div
+      class="max-w-[85%] rounded-3xl px-4 py-2.5 text-sm leading-relaxed break-words whitespace-pre-wrap"
+      :class="isSent ? 'bg-primary text-white' : 'bg-elevated text-default'"
+    >
+      {{ message.text }}
+    </div>
+    <span class="mt-1 text-[11px] opacity-70">{{ parsedDate }}</span>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -22,5 +23,3 @@ const isSent = computed(() => props.message.type === ChatMessageType.OUTPUT)
 
 const parsedDate = computed(() => format(parseISO(props.message.date), 'dd.MM.yyyy HH:mm'))
 </script>
-
-<style lang="scss" src="./ChatMessageBubble.scss"></style>
