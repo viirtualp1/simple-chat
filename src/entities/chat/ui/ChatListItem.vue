@@ -1,25 +1,34 @@
 <template>
   <button
     type="button"
-    class="flex min-h-17 w-full items-center gap-3 rounded-3xl px-3.5 py-2.5 text-left transition-colors hover:bg-muted"
-    :class="{ 'bg-primary-50 dark:bg-primary-950': isChatSelected }"
+    class="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition-all duration-150 hover:bg-white/50 dark:hover:bg-white/5"
+    :class="{ 'bg-white/65 shadow-sm dark:bg-white/10': isChatSelected }"
     @click="setChat"
   >
-    <UAvatar :text="chat.from[0]" :ui="{ root: 'bg-primary', fallback: 'text-white' }" />
+    <ChatAvatar :name="chat.from" size="lg" />
 
-    <span class="min-w-0 flex-1">
-      <span class="truncate font-medium text-highlighted">{{ chat.from }}</span>
-      <span v-if="lastMessage" class="truncate text-sm text-muted">
-        {{ lastMessage.text }}
-      </span>
-    </span>
+    <div class="min-w-0 flex-1">
+      <div class="flex items-center justify-between gap-2">
+        <span class="truncate font-semibold text-highlighted">{{ chat.from }}</span>
+        <span v-if="lastMessage" class="shrink-0 text-[11px] text-muted">
+          {{ lastMessage.date }}
+        </span>
+      </div>
 
-    <span v-if="lastMessage" class="flex min-w-13 shrink-0 flex-col items-end gap-2 pl-2">
-      <span class="text-[11px] whitespace-nowrap text-muted">{{ lastMessage.date }}</span>
-      <UBadge v-if="unreadMessagesCount > 0" color="error" size="sm" class="rounded-full">
-        {{ unreadMessagesCount }}
-      </UBadge>
-    </span>
+      <div class="mt-0.5 flex items-center justify-between gap-2">
+        <span class="truncate text-sm text-muted">
+          {{ lastMessage ? lastMessage.text : 'No messages yet' }}
+        </span>
+        <UBadge
+          v-if="unreadMessagesCount > 0"
+          color="primary"
+          size="sm"
+          class="shrink-0 rounded-full"
+        >
+          {{ unreadMessagesCount }}
+        </UBadge>
+      </div>
+    </div>
   </button>
 </template>
 
@@ -27,9 +36,10 @@
 import { computed } from 'vue'
 import { formatDistance, parseISO } from 'date-fns'
 import { useRelativeTimeNow } from '../lib/useRelativeTimeNow'
-import { useChatsStoreRefs } from '~/entities/chat'
+import { useChatsStoreRefs } from '../model/chatStore'
 import type { FormattedChatMessage } from '../model/types'
 import { ChatMessageType } from '../model/types'
+import ChatAvatar from './ChatAvatar.vue'
 
 const props = defineProps<{ chat: FormattedChatMessage }>()
 
@@ -42,14 +52,10 @@ const now = useRelativeTimeNow()
 
 const lastMessage = computed(() => {
   const messages = props.chat.messages
-  if (messages.length === 0) {
-    return null
-  }
+  if (messages.length === 0) return null
 
   const message = messages[messages.length - 1]
-  if (!message) {
-    return null
-  }
+  if (!message) return null
 
   return {
     text: message.text,

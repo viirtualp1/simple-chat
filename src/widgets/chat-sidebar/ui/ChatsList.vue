@@ -1,18 +1,30 @@
 <template>
   <div class="flex flex-col gap-0.5">
-    <UAlert
+    <div
       v-if="filteredChats.length === 0"
-      :title="emptyMessage"
-      :color="filters.sort === SortFilterType.NEW ? 'primary' : 'neutral'"
-      variant="subtle"
-      class="rounded-3xl"
-      :actions="emptyActions"
-    />
+      class="glass-bubble mx-1 mt-4 flex flex-col items-center gap-3 rounded-3xl p-6 text-center"
+    >
+      <div class="flex size-12 items-center justify-center rounded-full bg-primary-500/10 text-primary">
+        <UIcon :name="emptyIcon" class="size-6" />
+      </div>
+      <p class="text-sm text-muted">{{ emptyMessage }}</p>
+      <UButton
+        v-if="filters.sort === SortFilterType.NEW"
+        label="Go to all chats"
+        color="primary"
+        variant="soft"
+        size="sm"
+        class="rounded-full"
+        @click="setRecentFilter"
+      />
+    </div>
 
-    <template v-for="(chat, idx) in filteredChats" :key="chat.from">
-      <ChatListItem :chat="chat" @select:chat="onChatSelected" />
-      <USeparator v-if="idx !== filteredChats.length - 1" />
-    </template>
+    <ChatListItem
+      v-for="chat in filteredChats"
+      :key="chat.from"
+      :chat="chat"
+      @select:chat="onChatSelected"
+    />
   </div>
 </template>
 
@@ -39,11 +51,11 @@ const emptyMessage = computed(() => {
   return 'No chats yet'
 })
 
-const emptyActions = computed(() =>
-  filters.value.sort === SortFilterType.NEW
-    ? [{ label: 'Go to all chats', color: 'primary' as const, onClick: setRecentFilter }]
-    : undefined,
-)
+const emptyIcon = computed(() => {
+  if (filters.value.search?.trim()) return 'i-lucide-search-x'
+  if (filters.value.sort === SortFilterType.NEW) return 'i-lucide-bell-off'
+  return 'i-lucide-message-circle'
+})
 
 function onChatSelected(from: string) {
   selectChat(from)
