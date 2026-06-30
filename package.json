@@ -1,9 +1,9 @@
 {
-  "name": "chat-test-task",
-  "version": "0.0.1",
-  "description": "Chat app for test task",
-  "productName": "ChatTestTask",
-  "author": "virtualp1 <zininnikita309@gmail.com>",
+  "name": "simple-chat",
+  "version": "1.0.0",
+  "description": "Simple chat app",
+  "productName": "Simple Chat",
+  "author": "viirtualp1 <zininnikita309@gmail.com>",
   "type": "module",
   "scripts": {
     "dev": "nuxt dev",
