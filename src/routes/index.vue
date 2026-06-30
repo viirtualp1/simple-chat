@@ -1,5 +1,5 @@
 <template>
-  <chat-page />
+  <ChatPage />
 </template>
 
 <script setup lang="ts">

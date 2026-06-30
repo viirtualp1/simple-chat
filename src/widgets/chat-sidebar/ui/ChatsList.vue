@@ -1,24 +1,31 @@
 <template>
-  <q-list>
-    <q-banner
+  <div class="flex flex-col gap-0.5">
+    <div
       v-if="filteredChats.length === 0"
-      dense
-      inline-actions
-      class="chats-list__banner"
-      :class="filters.sort === SortFilterType.NEW ? 'bg-primary text-white' : 'bg-grey-3'"
+      class="glass-bubble mx-1 mt-4 flex flex-col items-center gap-3 rounded-3xl p-6 text-center"
     >
-      {{ emptyMessage }}
+      <div class="flex size-12 items-center justify-center rounded-full bg-primary-500/10 text-primary">
+        <UIcon :name="emptyIcon" class="size-6" />
+      </div>
+      <p class="text-sm text-muted">{{ emptyMessage }}</p>
+      <UButton
+        v-if="filters.sort === SortFilterType.NEW"
+        label="Go to all chats"
+        color="primary"
+        variant="soft"
+        size="sm"
+        class="rounded-full"
+        @click="setRecentFilter"
+      />
+    </div>
 
-      <template v-if="filters.sort === SortFilterType.NEW" v-slot:action>
-        <q-btn flat color="white" rounded label="Go to all chats" @click="setRecentFilter" />
-      </template>
-    </q-banner>
-
-    <template v-for="(chat, idx) in filteredChats" :key="chat.from">
-      <chat-list-item :chat="chat" @select:chat="onChatSelected" />
-      <q-separator v-if="idx !== filteredChats.length - 1" spaced />
-    </template>
-  </q-list>
+    <ChatListItem
+      v-for="chat in filteredChats"
+      :key="chat.from"
+      :chat="chat"
+      @select:chat="onChatSelected"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -44,6 +51,12 @@ const emptyMessage = computed(() => {
   return 'No chats yet'
 })
 
+const emptyIcon = computed(() => {
+  if (filters.value.search?.trim()) return 'i-lucide-search-x'
+  if (filters.value.sort === SortFilterType.NEW) return 'i-lucide-bell-off'
+  return 'i-lucide-message-circle'
+})
+
 function onChatSelected(from: string) {
   selectChat(from)
 }
@@ -52,5 +65,3 @@ function setRecentFilter() {
   filters.value.sort = SortFilterType.RECENT
 }
 </script>
-
-<style lang="scss" src="./ChatsList.scss"></style>

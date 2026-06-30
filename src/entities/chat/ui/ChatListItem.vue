@@ -1,31 +1,35 @@
 <template>
-  <q-item
-    clickable
-    :active="isChatSelected"
-    active-class="chat-list-item--active"
-    class="chat-list-item"
+  <button
+    type="button"
+    class="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition-all duration-150 hover:bg-white/50 dark:hover:bg-white/5"
+    :class="{ 'bg-white/65 shadow-sm dark:bg-white/10': isChatSelected }"
     @click="setChat"
   >
-    <q-item-section avatar>
-      <q-avatar color="primary" text-color="white"> {{ chat.from[0] }} </q-avatar>
-    </q-item-section>
+    <ChatAvatar :name="chat.from" size="lg" />
 
-    <q-item-section class="chat-list-item__author">
-      <q-item-label>
-        {{ chat.from }}
-      </q-item-label>
-      <q-item-label v-if="lastMessage" caption lines="1" class="chat-list-item__preview">
-        {{ lastMessage.text }}
-      </q-item-label>
-    </q-item-section>
+    <div class="min-w-0 flex-1">
+      <div class="flex items-center justify-between gap-2">
+        <span class="truncate font-semibold text-highlighted">{{ chat.from }}</span>
+        <span v-if="lastMessage" class="shrink-0 text-[11px] text-muted">
+          {{ lastMessage.date }}
+        </span>
+      </div>
 
-    <q-item-section v-if="lastMessage" side top class="chat-list-item__meta">
-      <q-item-label caption class="chat-list-item__date">{{ lastMessage.date }}</q-item-label>
-      <q-badge v-if="unreadMessagesCount > 0" color="red" rounded>
-        {{ unreadMessagesCount }}
-      </q-badge>
-    </q-item-section>
-  </q-item>
+      <div class="mt-0.5 flex items-center justify-between gap-2">
+        <span class="truncate text-sm text-muted">
+          {{ lastMessage ? lastMessage.text : 'No messages yet' }}
+        </span>
+        <UBadge
+          v-if="unreadMessagesCount > 0"
+          color="primary"
+          size="sm"
+          class="shrink-0 rounded-full"
+        >
+          {{ unreadMessagesCount }}
+        </UBadge>
+      </div>
+    </div>
+  </button>
 </template>
 
 <script setup lang="ts">
@@ -35,6 +39,7 @@ import { useRelativeTimeNow } from '../lib/useRelativeTimeNow'
 import { useChatsStoreRefs } from '../model/chatStore'
 import type { FormattedChatMessage } from '../model/types'
 import { ChatMessageType } from '../model/types'
+import ChatAvatar from './ChatAvatar.vue'
 
 const props = defineProps<{ chat: FormattedChatMessage }>()
 
@@ -70,5 +75,3 @@ function setChat() {
   emit('select:chat', props.chat.from)
 }
 </script>
-
-<style lang="scss" src="./ChatListItem.scss"></style>

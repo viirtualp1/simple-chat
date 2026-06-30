@@ -2,7 +2,7 @@ import { inject, onMounted, onUnmounted, provide, ref, type Ref } from 'vue'
 
 const RelativeTimeKey = Symbol('relativeTimeNow')
 
-export function provideRelativeTimeNow(): Ref<Date> {
+export function provideRelativeTimeNow() {
   const now = ref(new Date())
 
   provide(RelativeTimeKey, now)
@@ -18,7 +18,7 @@ export function provideRelativeTimeNow(): Ref<Date> {
   return now
 }
 
-export function useRelativeTimeNow(): Ref<Date> {
+export function useRelativeTimeNow() {
   const injected = inject<Ref<Date> | null>(RelativeTimeKey, null)
   if (injected) return injected
 

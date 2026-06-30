@@ -1,0 +1,126 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+:root {
+  color-scheme: light dark;
+}
+
+html,
+body,
+#__nuxt {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background-color: #eceef2;
+}
+
+.dark body {
+  background-color: #0f1115;
+}
+
+/* ---- Liquid glass surfaces ---- */
+.glass-shell {
+  background: rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 24px 60px -12px rgba(31, 38, 135, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.dark .glass-shell {
+  background: rgba(15, 17, 24, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 24px 60px -12px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.glass-bubble {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.dark .glass-bubble {
+  background: rgba(42, 45, 58, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-control {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.dark .glass-control {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ---- Slim scrollbars ---- */
+.scroll-slim {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120, 120, 140, 0.4) transparent;
+}
+
+.scroll-slim::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scroll-slim::-webkit-scrollbar-thumb {
+  background: rgba(120, 120, 140, 0.35);
+  border-radius: 9999px;
+}
+
+.scroll-slim::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 120, 140, 0.55);
+}
+
+.scroll-slim::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---- Motion ---- */
+@keyframes msg-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.msg-in {
+  animation: msg-in 0.22s ease-out;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.pulse-dot {
+  animation: pulse-dot 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .msg-in,
+  .pulse-dot {
+    animation: none;
+  }
+}

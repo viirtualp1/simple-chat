@@ -1,43 +1,64 @@
 <template>
-  <div class="chat-filters">
-    <q-input
-      v-model="filters.search"
-      dense
-      outlined
-      rounded
-      label="Search"
-      clearable
-      debounce="100"
+  <div class="space-y-2.5">
+    <UInput
+      v-model="search"
+      icon="i-lucide-search"
+      placeholder="Search"
+      size="lg"
+      variant="none"
+      class="w-full"
+      :ui="{ root: 'glass-control rounded-full w-full', base: 'rounded-full bg-transparent' }"
     >
-      <template v-slot:append>
-        <q-icon name="search" />
+      <template v-if="search" #trailing>
+        <UButton
+          icon="i-lucide-x"
+          color="neutral"
+          variant="link"
+          size="sm"
+          aria-label="Clear search"
+          @click="search = ''"
+        />
       </template>
-    </q-input>
+    </UInput>
 
-    <div class="chat-filters__sort">
-      <app-button
-        label="Recent"
-        :outline="filters.sort !== SortFilterType.RECENT"
-        @click="selectFilter(SortFilterType.RECENT)"
-      />
-      <app-button
-        label="New"
-        :outline="filters.sort !== SortFilterType.NEW"
-        @click="selectFilter(SortFilterType.NEW)"
-      />
+    <div class="glass-control flex gap-1 rounded-full p-1">
+      <button
+        v-for="option in options"
+        :key="option.value"
+        type="button"
+        class="flex-1 rounded-full px-3 py-1.5 text-sm font-medium transition-colors"
+        :class="
+          filters.sort === option.value
+            ? 'bg-white text-primary shadow-sm dark:bg-white/15 dark:text-white'
+            : 'text-muted hover:text-default'
+        "
+        @click="selectFilter(option.value)"
+      >
+        {{ option.label }}
+      </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { AppButton } from '@/shared/ui/button'
+import { computed } from 'vue'
 import { SortFilterType, useFiltersStoreRefs } from '@/entities/chat-filter'
 
 const { filters } = useFiltersStoreRefs()
+
+const options = [
+  { value: SortFilterType.RECENT, label: 'Recent' },
+  { value: SortFilterType.NEW, label: 'New' },
+] as const
+
+const search = computed({
+  get: () => filters.value.search ?? '',
+  set: (value: string) => {
+    filters.value.search = value
+  },
+})
 
 function selectFilter(type: SortFilterType) {
   filters.value.sort = type
 }
 </script>
-
-<style lang="scss" src="./ChatFilters.scss"></style>

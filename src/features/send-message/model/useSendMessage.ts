@@ -7,7 +7,9 @@ export function useSendMessage(chat: Ref<FormattedChatMessage | undefined>) {
 
   function sendMessage(onSent?: () => void) {
     const trimmed = text.value.trim()
-    if (!trimmed || !chat.value) return
+    if (!trimmed || !chat.value) {
+      return
+    }
 
     chat.value.messages.push({
       text: trimmed,

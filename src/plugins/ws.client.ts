@@ -1,13 +1,15 @@
 import { initWsClient } from '@/shared/ws'
 import { bindChatWsIntegration, useChatsStore } from '@/entities/chat'
 
-export function setupWsIntegration() {
+export default defineNuxtPlugin(() => {
   const store = useChatsStore()
 
   initWsClient()
 
-  return bindChatWsIntegration({
+  const unbind = bindChatWsIntegration({
     onMessage: store.handleIncomingMessage,
     onNotification: store.handleNotification,
   })
-}
+
+  window.addEventListener('beforeunload', unbind)
+})

@@ -1,4 +1,4 @@
 {
-  "extends": "./.quasar/tsconfig.json",
-  "exclude": ["simple-chat-server", "dist", "node_modules", "src-capacitor", "src-cordova"]
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": "./.nuxt/tsconfig.json"
 }
